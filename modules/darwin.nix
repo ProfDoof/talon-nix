@@ -9,6 +9,5 @@ in
 
   config = lib.mkIf cfg.enable {
     nixpkgs.overlays = [ (import ../overlay.nix) ];
-    environment.systemPackages = [ pkgs.talon ];
   };
 }
