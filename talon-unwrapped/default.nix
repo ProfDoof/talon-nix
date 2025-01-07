@@ -4,14 +4,14 @@
 }:
 let
   inherit (lib.importJSON ../info.json) version linux darwin;
-        pname = "talon";
-        meta = with lib; {
-          homepage = "https://talonvoice.com/";
-          description = "Voice control application";
-          license = licenses.unfree;
-          maintainers = [ ];
-          sourceProvenance = with sourceTypes; [ binaryNativeCode ];
-        };
+  pname = "talon-unwrapped";
+  meta = with lib; {
+    homepage = "https://talonvoice.com/";
+    description = "Voice control application";
+    license = licenses.unfree;
+    maintainers = [ ];
+    sourceProvenance = with sourceTypes; [ binaryNativeCode ];
+  };
   linuxPkg = callPackage ./linux.nix {
     inherit pname version meta;
     inherit (linux) sha256;

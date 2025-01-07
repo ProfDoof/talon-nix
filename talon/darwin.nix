@@ -1,2 +1,4 @@
 { pkgs, ... }:
-pkgs.talon-unwrapped
+pkgs.talon-unwrapped.overrideAttrs {
+  pname = "talon";
+}
