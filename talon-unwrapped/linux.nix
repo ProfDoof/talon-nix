@@ -10,7 +10,7 @@
 stdenv.mkDerivation {
   inherit pname version;
 
-  src = fetchurl {
+  src = lib.makeOverridable fetchurl {
     url = "https://talonvoice.com/dl/latest/talon-linux.tar.xz";
     inherit sha256;
   };

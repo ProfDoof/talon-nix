@@ -10,7 +10,7 @@
 }:
 stdenvNoCC.mkDerivation {
   inherit pname version;
-  src = fetchurl {
+  src = lib.makeOverridable fetchurl {
     url = "https://talonvoice.com/dl/latest/talon-mac.dmg";
     name = "Talon-${version}.dmg";
     inherit sha256;
