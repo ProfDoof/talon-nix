@@ -69,7 +69,7 @@ buildFHSEnv {
     # gfortran.cc default output contains static libraries compiled without -fPIC
     # we want libgfortran.so instead (see: https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/science/math/giac/default.nix)
     (lib.getLib gfortran.cc)
-    talon
+    talon-unwrapped
   ];
 
   meta = pkgs.talon-unwrapped.meta;
