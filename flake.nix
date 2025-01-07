@@ -23,7 +23,7 @@
       overlays.default = import ./overlay.nix;
       nixosModules.default = import ./modules/nixos.nix;
       darwinModules.default = import ./modules/darwin.nix;
-      checks = forAllSystems (system: { talon = self.packages.${system}.talon; });
+      checks = forAllSystems (system: { talon = self.packages.${system}.talon; talon-unwrapped = self.packages.${system}.talon-unwrapped; });
       packages = forAllSystemsPkgs (pkgs: {
         talon-unwrapped = pkgs.callPackage ./talon-unwrapped/default.nix { };
         talon = pkgs.callPackage ./talon/default.nix { };
