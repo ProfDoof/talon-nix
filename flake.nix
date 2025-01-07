@@ -23,8 +23,11 @@
       overlays.default = import ./overlay.nix;
       nixosModules.default = import ./modules/nixos.nix;
       darwinModules.default = import ./modules/darwin.nix;
-      checks = forAllSystems (system: { talon = self.packages.${system}.default; });
-      packages = forAllSystemsPkgs (pkgs: { default = pkgs.callPackage ./talon.nix { }; });
+      checks = forAllSystems (system: { talon = self.packages.${system}.talon; });
+      packages = forAllSystemsPkgs (pkgs: {
+        talon-unwrapped = pkgs.callPackage ./talon-unwrapped/default.nix { };
+        talon = pkgs.callPackage ./talon/default.nix { };
+      });
       devShells = forAllSystemsPkgs (pkgs: { default = import ./shell.nix { inherit pkgs; }; });
       githubActions = nix-github-actions.lib.mkGithubMatrix { inherit (self) checks; };
     };

@@ -73,7 +73,7 @@ if __name__ == "__main__":
             ext = talonUrl.value[first_period:]
             info[talonUrl.name] = { "sha256": download_file(talonUrl.value, f"artifacts/talon_{talonUrl.name}-{version}{ext}") }
 
-        with open("talon/info.json", "w") as f:
+        with open("talon-unwrapped/info.json", "w") as f:
             json.dump(info, f, indent=4)
 
     elif command == "version":
