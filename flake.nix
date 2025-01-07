@@ -25,7 +25,7 @@
       nixosModules.default = import ./modules/nixos.nix;
       darwinModules.default = import ./modules/darwin.nix;
       checks = forAllSystems (system: { 
-        talon = self.packages.${system}.default;
+        default = self.packages.${system}.default;
       });
       packages = forAllSystemsPkgs (system: pkgs: {
         default = self.packages.${system}.talon;

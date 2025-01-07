@@ -1,6 +1,7 @@
 { pkgs
 , stdenv
 , lib
+, ...
 }:
 let
   linuxPkg = pkgs.callPackage ./linux.nix { };
