@@ -14,21 +14,25 @@
       systems = [ "x86_64-linux" "x86_64-darwin" "aarch64-darwin" ];
       # Use to avoid accidentally introducing multiple nixpkgs: 
       # https://discourse.nixos.org/t/using-nixpkgs-legacypackages-system-vs-import/17462/8
+      baseOverlay = import ./overlay.nix;
       forAllSystemsPkgs = usePkgs:
-        lib.genAttrs systems (system: usePkgs nixpkgs-unfree.legacyPackages.${system});
+        lib.genAttrs systems (system: usePkgs system (nixpkgs-unfree.legacyPackages.${system}.extend baseOverlay));
       forAllSystems = useSystem:
         lib.genAttrs systems (system: useSystem system);
     in
     {
-      overlays.default = import ./overlay.nix;
+      overlays.default = baseOverlay;
       nixosModules.default = import ./modules/nixos.nix;
       darwinModules.default = import ./modules/darwin.nix;
-      checks = forAllSystems (system: { talon = self.packages.${system}.talon; talon-unwrapped = self.packages.${system}.talon-unwrapped; });
-      packages = forAllSystemsPkgs (pkgs: {
-        talon-unwrapped = pkgs.callPackage ./talon-unwrapped/default.nix { };
-        talon = pkgs.callPackage ./talon/default.nix { };
+      checks = forAllSystems (system: { 
+        talon = self.packages.${system}.default;
       });
-      devShells = forAllSystemsPkgs (pkgs: { default = import ./shell.nix { inherit pkgs; }; });
+      packages = forAllSystemsPkgs (system: pkgs: {
+        default = self.packages.${system}.talon;
+        talon-unwrapped = pkgs.talon-unwrapped;
+        talon = pkgs.talon;
+      });
+      devShells = forAllSystemsPkgs (_: pkgs: { default = import ./shell.nix { inherit pkgs; }; });
       githubActions = nix-github-actions.lib.mkGithubMatrix { inherit (self) checks; };
     };
 }
