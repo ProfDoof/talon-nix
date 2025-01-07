@@ -5,6 +5,7 @@
 , pname
 , version
 , sha256
+, ...
 }:
 stdenv.mkDerivation {
   inherit pname version;

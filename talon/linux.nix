@@ -2,6 +2,7 @@
 , buildFHSEnv
 , lib
 , pkgs
+, ...
 }:
 buildFHSEnv {
   name = "talon";

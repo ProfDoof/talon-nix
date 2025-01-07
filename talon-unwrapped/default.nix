@@ -1,4 +1,5 @@
-{ stdenv
+{ pkgs
+, stdenv
 , lib
 , callPackage
 }:
@@ -13,11 +14,11 @@ let
     sourceProvenance = with sourceTypes; [ binaryNativeCode ];
   };
   linuxPkg = callPackage ./linux.nix {
-    inherit pname version meta;
+    inherit pname version meta pkgs;
     inherit (linux) sha256;
   };
   darwinPkg = callPackage ./darwin.nix {
-    inherit pname version meta;
+    inherit pname version meta pkgs;
     inherit (darwin) sha256;
   };
 in

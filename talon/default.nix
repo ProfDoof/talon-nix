@@ -1,10 +1,10 @@
-{ stdenv
+{ pkgs
+, stdenv
 , lib
-, callPackage
 }:
 let
-  linuxPkg = callPackage ./linux.nix {};
-  darwinPkg = callPackage ./darwin.nix {};
+  linuxPkg = pkgs.callPackage ./linux.nix { };
+  darwinPkg = pkgs.callPackage ./darwin.nix { };
 in
 if stdenv.hostPlatform.isDarwin
 then darwinPkg

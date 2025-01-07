@@ -6,6 +6,7 @@
 , meta
 , sha256
 , undmg
+, ...
 }:
 stdenvNoCC.mkDerivation {
   inherit pname version;
