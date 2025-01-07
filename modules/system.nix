@@ -44,26 +44,29 @@ in
     };
   };
   config = lib.mkIf cfg.enable {
-    nixpkgs = lib.mkMerge ({
-      overlays = [
-        (import ../overlay.nix)
-      ];
-    }) (lib.mkIf (cfg.source != null) {
-      overlays = [
-        (
-          finalPkgs: prevPkgs: 
-          {
-            talon-unwrapped = prevPkgs.talon-unwrapped.overrideAttrs (prevAttrs: {
-              version = cfg.source.version;
-              src = prevAttrs.src.override {
-                url = cfg.source.url;
-                sha256 = cfg.source.sha256;
-              };
-            });
-          }
-        )
-      ];
-    });
+    nixpkgs = lib.mkMerge [
+      ({
+        overlays = [
+          (import ../overlay.nix)
+        ];
+      })
+      (lib.mkIf (cfg.source != null) {
+        overlays = [
+          (
+            finalPkgs: prevPkgs: 
+            {
+              talon-unwrapped = prevPkgs.talon-unwrapped.overrideAttrs (prevAttrs: {
+                version = cfg.source.version;
+                src = prevAttrs.src.override {
+                  url = cfg.source.url;
+                  sha256 = cfg.source.sha256;
+                };
+              });
+            }
+          )
+        ];
+      })
+    ];
     environment.systemPackages = [
       pkgs.talon
     ];
