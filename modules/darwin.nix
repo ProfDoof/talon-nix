@@ -6,8 +6,4 @@ let
 in
 {
   imports = [ ./system.nix ];
-
-  config = lib.mkIf cfg.enable {
-    nixpkgs.overlays = [ (import ../overlay.nix) ];
-  };
 }

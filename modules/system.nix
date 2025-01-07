@@ -44,7 +44,11 @@ in
     };
   };
   config = lib.mkIf cfg.enable {
-    nixpkgs = lib.mkIf (cfg.source != null) {
+    nixpkgs = lib.mkMerge ({
+      overlays = [
+        (import ../overlay.nix)
+      ];
+    }) (lib.mkIf (cfg.source != null) {
       overlays = [
         (
           finalPkgs: prevPkgs: 
@@ -59,7 +63,7 @@ in
           }
         )
       ];
-    };
+    });
     environment.systemPackages = [
       pkgs.talon
     ];
