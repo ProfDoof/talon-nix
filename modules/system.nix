@@ -4,11 +4,23 @@ let
   cfg = config.programs.talon;
   sourceType = lib.types.submodule {
     options = {
+      version = lib.mkOption {
+        type = lib.types.str;
+        description = lib.mdDoc ''
+          Sets the version of talon you are sourcing
+        '';
+      };
       url = lib.mkOption {
         type = lib.types.str;
+        description = lib.mdDoc ''
+          Sets the URL to pull the source from
+        '';
       };
       sha256 = lib.mkOption {
         type = lib.types.str;
+        description = lib.mdDoc ''
+          Sets the SHA256 Hash for the source pulled down
+        '';
       };
     };
   };
@@ -31,15 +43,25 @@ in
       '';
     };
   };
-  config = {
+  config = lib.mkIf cfg.enable {
+    nixpkgs = lib.mkIf (cfg.source != null) {
+      overlays = [
+        (
+          finalPkgs: prevPkgs: 
+          {
+            talon-unwrapped = prevPkgs.talon-unwrapped.overrideAttrs (prevAttrs: {
+              version = cfg.source.version;
+              src = prevAttrs.src.override {
+                url = cfg.source.url;
+                sha256 = cfg.source.sha256;
+              };
+            });
+          }
+        )
+      ];
+    };
     environment.systemPackages = [
-      (lib.mkIf (cfg.source == null) pkgs.talon)
-      (lib.mkIf (cfg.source != null) (pkgs.talon.overrideAttrs (prevAttrs: {
-        src = prevAttrs.src.override {
-          url = cfg.source.url;
-          sha256 = cfg.source.sha256;
-        };
-      })))
+      pkgs.talon
     ];
   };
 }
