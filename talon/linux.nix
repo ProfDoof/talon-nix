@@ -25,7 +25,7 @@ buildFHSEnv {
   '';
 
   runScript = writeShellScript "talon-wrapper.sh" ''
-    mkdir -p "$HOME/.local/state/talon-unwrapped"
+    mkdir -p "$HOME/.local/state/talon-unwrapped/bin"
 
     if ! test -f "$HOME/.local/state/talon-unwrapped/bin/talon"; then
       cp ${pkgs.talon-unwrapped}/bin/talon "$HOME/.local/state/talon-unwrapped/bin/talon"
