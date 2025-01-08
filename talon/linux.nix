@@ -19,11 +19,13 @@ buildFHSEnv {
   '';
 
   extraInstallCommands = ''
+    mkdir -p "$XDG_STATE_HOME/talon-unwrapped"
+    cp -r ${pkgs.talon-unwrapped}/bin/talon "$XDG_STATE_HOME/talon-unwrapped/bin/talon"
     ln -s ${pkgs.talon-unwrapped}/share $out/share
     ln -s ${pkgs.talon-unwrapped}/etc $out/etc
   '';
 
-  runScript = "${pkgs.talon-unwrapped}/bin/talon";
+  runScript = "$XDG_STATE_HOME/talon-unwrapped/bin/talon";
 
   targetPkgs = pkgs: with pkgs; [
     stdenv.cc.cc
