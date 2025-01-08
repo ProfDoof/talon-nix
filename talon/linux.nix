@@ -19,16 +19,11 @@ buildFHSEnv {
     ]}
   '';
 
-  extraInstallCommands = ''
-    ln -s ${pkgs.talon-unwrapped}/share $out/share
-    ln -s ${pkgs.talon-unwrapped}/etc $out/etc
-  '';
-
   runScript = writeShellScript "talon-wrapper.sh" ''
-    mkdir -p "$HOME/.local/state/talon-unwrapped/bin"
+    mkdir -p "$HOME/.local/state/talon-unwrapped"
 
-    if ! test -f "$HOME/.local/state/talon-unwrapped/bin/talon"; then
-      cp ${pkgs.talon-unwrapped}/bin/talon "$HOME/.local/state/talon-unwrapped/bin/talon"
+    if ! test -d "$HOME/.local/state/talon-unwrapped"; then
+      cp -r ${pkgs.talon-unwrapped} "$HOME/.local/state/talon-unwrapped"
     fi
 
     exec $HOME/.local/state/talon-unwrapped/bin/talon "$@"
