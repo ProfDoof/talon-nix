@@ -25,13 +25,13 @@ buildFHSEnv {
   '';
 
   runScript = writeShellScript "talon-wrapper.sh" ''
-    mkdir -p "$XDG_STATE_HOME/talon-unwrapped"
+    mkdir -p "$HOME/.local/state/talon-unwrapped"
 
-    if ! [ -f "$XDG_STATE_HOME/talon-unwrapped/bin/talon"]; then
-      cp ${pkgs.talon-unwrapped}/bin/talon "$XDG_STATE_HOME/talon-unwrapped/bin/talon"
+    if ! test -f "$HOME/.local/state/talon-unwrapped/bin/talon"; then
+      cp ${pkgs.talon-unwrapped}/bin/talon "$HOME/.local/state/talon-unwrapped/bin/talon"
     fi
 
-    exec $XDG_STATE_HOME/talon-unwrapped/bin/talon "$@"
+    exec $HOME/.local/state/talon-unwrapped/bin/talon "$@"
   '';
 
   targetPkgs = pkgs: with pkgs; [
