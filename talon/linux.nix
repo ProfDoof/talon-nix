@@ -23,10 +23,12 @@ buildFHSEnv {
     ln -s ${pkgs.talon-unwrapped}/share $out/share
   '';
 
+  # Need to figure out a way to only overwrite when the version in the nix storage is newer than the one in the state dir.
   runScript = writeShellScript "talon-wrapper.sh" ''
     if ! test -d "$HOME/.local/state/talon-unwrapped"; then
       mkdir -p "$HOME/.local/state/talon-unwrapped"
       cp -r ${pkgs.talon-unwrapped}/* "$HOME/.local/state/talon-unwrapped/"
+      chmod -R u+w ~/.local/state/talon-unwrapped 
     fi
 
     exec $HOME/.local/state/talon-unwrapped/bin/talon "$@"
