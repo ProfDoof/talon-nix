@@ -8,6 +8,6 @@ in
   imports = [ ./system.nix ];
 
   config = lib.mkIf cfg.enable {
-    services.udev.packages = [ pkgs.talon ];
+    services.udev.packages = [ pkgs.talon-unwrapped ];
   };
 }
