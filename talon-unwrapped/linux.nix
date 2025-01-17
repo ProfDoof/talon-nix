@@ -32,14 +32,14 @@ stdenv.mkDerivation {
     substituteInPlace $out/etc/udev/rules.d/10-talon.rules --replace 'GROUP="plugdev",' ""
 
     mkdir -p $out/share/applications
-    cat << EOF > $out/share/applications/talon.desktop
-      [Desktop Entry]
-      Categories=Utility;
-      Exec=talon
-      Name=Talon
-      Terminal=false
-      Type=Application
-    EOF
+    # cat << EOF > $out/share/applications/talon.desktop
+    #   [Desktop Entry]
+    #   Categories=Utility;
+    #   Exec=talon
+    #   Name=Talon
+    #   Terminal=false
+    #   Type=Application
+    # EOF
 
     mkdir -p $out/bin
     ln -s $out/opt/talon/talon $out/bin/talon
